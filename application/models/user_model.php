@@ -7,4 +7,13 @@ class User_model extends CI_Model {
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
+	public function add_students ($arr) {
+		$rs = $this->db->insert('t_students', $arr);
+		return $rs;
+	}
+	public function get_by_sno ($sno) {
+		$sql = "select * from t_students where sno='$sno'";
+		$rs = $this->db->query($sql);
+		return $rs->result();
+	}
 }
