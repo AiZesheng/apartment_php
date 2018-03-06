@@ -43,6 +43,7 @@ class Api extends CI_Controller {
 			echo 0;
 		}
 	}
+	// 根据学号查询学生信息
 	public function get_by_sno () {
 		$sno = $this->input->post('sno');
 		$this->load->model('user_model');
@@ -52,6 +53,57 @@ class Api extends CI_Controller {
 		} else {
 			echo 0;
 		}
+	}
+	// 根据学生id查询学生信息
+	public function get_by_sid () {
+		$id = $this->input->post('id');
+		$this->load->model('user_model');
+		$rs = $this->user_model->get_by_sid($id);
+		if ($rs) {
+			echo json_encode($rs);
+		} else {
+			echo 0;
+		}
+	}
+	// 学生信息列表
+	public function getStudents () {
+		$sname = $this->input->post('sname');
+		$sno = $this->input->post('sno');
+		$sex = $this->input->post('sex');
+		$college = $this->input->post('college');
+		$phone = $this->input->post('phone');
+		$this->load->model('user_model');
+		$rs = $this->user_model->get_students($sname, $sno, $sex, $college, $phone);
+		$num = $this->user_model->get_students_total($sname, $sno, $sex, $college, $phone);
+		if ($rs) {
+			$arr = array(
+				'data' => $rs,
+				'total' => $num
+			);
+			echo json_encode($arr);
+		} else {
+			echo '啥也没有';
+		}
+	}
+	// 学生信息修改
+	public function updateStudent () {
+		$sno = $this->input->post('sno');
+		$name = $this->input->post('name');
+		$sex = $this->input->post('sex');
+		$college = $this->input->post('college');
+		$nativePlace = $this->input->post('nativePlace');
+		$political = $this->input->post('political');
+		$phone = $this->input->post('phone');
+		$this->load->model('user_model');
+		$rs = $this->user_model->update_student($sno, $name, $sex, $college, $nativePlace, $political, $phone);
+		echo json_encode($rs);
+	}
+	// 学生信息删除
+	public function deleteStudent () {
+		$id = $this->input->post('id');
+		$this->load->model('user_model');
+		$rs = $this->user_model->delete_student($id);
+		echo json_encode($rs);
 	}
 }
 ?>
