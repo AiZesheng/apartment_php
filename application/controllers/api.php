@@ -72,8 +72,11 @@ class Api extends CI_Controller {
 		$sex = $this->input->post('sex');
 		$college = $this->input->post('college');
 		$phone = $this->input->post('phone');
+		$pageNo = $this->input->post('pageNo');
+		$pageSize = $this->input->post('pageSize');
+		$pageNo = ($pageNo - 1) * 10;
 		$this->load->model('user_model');
-		$rs = $this->user_model->get_students($sname, $sno, $sex, $college, $phone);
+		$rs = $this->user_model->get_students($sname, $sno, $sex, $college, $phone, $pageNo, $pageSize);
 		$num = $this->user_model->get_students_total($sname, $sno, $sex, $college, $phone);
 		if ($rs) {
 			$arr = array(
@@ -103,6 +106,44 @@ class Api extends CI_Controller {
 		$id = $this->input->post('id');
 		$this->load->model('user_model');
 		$rs = $this->user_model->delete_student($id);
+		echo json_encode($rs);
+	}
+	// 拿所有宿舍楼名称
+	public function getApartment () {
+		$this->load->model('user_model');
+		$rs = $this->user_model->getApartment();
+		echo json_encode($rs);
+	}
+	// 添加房间
+	public function addRoom () {
+		$apartmentId = $this->input->post('apartmentId');
+		$roomNo = $this->input->post('roomNo');
+		$roomType = $this->input->post('roomType');
+		$this->load->model('user_model');
+		$arr = array(
+			'apartment_id' => $apartmentId,
+			'roomNo' => $roomNo,
+			'roomType' => $roomType
+		);
+		$rs = $this->user_model->addRoom($arr);
+		echo json_encode($rs);
+	}
+	// 添加房间的唯一性校验
+	public function get_by_apartmentId_roomNo () {
+		$apartmentId = $this->input->post('apartmentId');
+		$roomNo = $this->input->post('roomNo');
+		$this->load->model('user_model');
+		$rs = $this->user_model->get_by_apartmentId_roomNo($apartmentId, $roomNo);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	// 拿所有房间
+	public function getRooms () {
+		$this->load->model('user_model');
+		$rs = $this->user_model->getRooms();
 		echo json_encode($rs);
 	}
 }

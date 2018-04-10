@@ -26,8 +26,8 @@ class User_model extends CI_Model {
 		return $rs->result();
 	}
 	// 学生信息列表
-	public function get_students ($sname, $sno, $sex, $college, $phone) {
-		$sql = "select * from t_students where ('$sname'='' or name='$sname') and ('$sno'='' or sno='$sno') and ('$sex'='' or sex='$sex') and ('$college'='' or college='$college') and ('$phone'='' or phone='$phone') order by sno";
+	public function get_students ($sname, $sno, $sex, $college, $phone, $pageNo, $pageSize) {
+		$sql = "select * from t_students where ('$sname'='' or name='$sname') and ('$sno'='' or sno='$sno') and ('$sex'='' or sex='$sex') and ('$college'='' or college='$college') and ('$phone'='' or phone='$phone') order by sno limit $pageNo,$pageSize";
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
@@ -48,5 +48,28 @@ class User_model extends CI_Model {
 		$sql = "delete from t_students where id='$id'";
 		$rs = $this->db->query($sql);
 		return $rs;
+	}
+	// 拿所有宿舍楼名称
+	public function getApartment () {
+		$sql = "select * from t_apartment";
+		$rs = $this->db->query($sql);
+		return $rs->result();
+	}
+	// 添加房间
+	public function addRoom ($arr) {
+		$rs = $this->db->insert('t_rooms', $arr);
+		return $rs;
+	}
+	// 添加房间的唯一性校验
+	public function get_by_apartmentId_roomNo ($apartmentId, $roomNo) {
+		$sql = "select * from t_rooms where apartment_id='$apartmentId' and roomNo='$roomNo'";
+		$rs = $this->db->query($sql);
+		return $rs->result();
+	}
+	// 拿所有房间
+	public function getRooms () {
+		$sql = "select * from t_rooms,t_apartment where t_rooms.apartment_id=t_apartment.id";
+		$rs = $this->db->query($sql);
+		return $rs->result();
 	}
 }
