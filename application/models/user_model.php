@@ -72,4 +72,16 @@ class User_model extends CI_Model {
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
+	// 通过宿舍楼id查房间号
+	public function get_by_apartmentId ($apartmentId) {
+		$sql = "select * from t_rooms where apartment_id='$apartmentId'";
+		$rs = $this->db->query($sql);
+		return $rs->result();
+	}
+	// 给学生设置寝室
+	public function setRoom ($studentId, $roomId) {
+		$sql = "insert into t_students_rooms(student_id, room_id) values($studentId, $roomId)";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
 }

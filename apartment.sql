@@ -9,7 +9,7 @@
  Target Server Version : 50718
  File Encoding         : utf-8
 
- Date: 04/10/2018 17:35:00 PM
+ Date: 04/11/2018 18:48:39 PM
 */
 
 SET NAMES utf8;
@@ -82,6 +82,13 @@ CREATE TABLE `t_students_rooms` (
   `student_id` int(11) NOT NULL COMMENT '学生姓名',
   `room_id` int(11) NOT NULL COMMENT '房间id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `t_students_rooms`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_students_rooms` VALUES ('7', '3'), ('11', '3');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `t_user`

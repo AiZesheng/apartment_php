@@ -146,5 +146,24 @@ class Api extends CI_Controller {
 		$rs = $this->user_model->getRooms();
 		echo json_encode($rs);
 	}
+	// 通过宿舍楼id查房间号
+	public function get_by_apartmentId () {
+		$apartmentId = $this->input->post('apartmentId');
+		$this->load->model('user_model');
+		$rs = $this->user_model->get_by_apartmentId($apartmentId);
+		echo json_encode($rs);
+	}
+	// 给学生设置寝室
+	public function setRoom () {
+		$studentId = $this->input->post('studentId');
+		$roomId = $this->input->post('roomId');
+		$this->load->model('user_model');
+		$rs = $this->user_model->setRoom($studentId, $roomId);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
 }
 ?>
