@@ -27,7 +27,7 @@ class User_model extends CI_Model {
 	}
 	// 学生信息列表
 	public function get_students ($sname, $sno, $sex, $college, $phone, $pageNo, $pageSize) {
-		$sql = "select * from t_students where ('$sname'='' or name='$sname') and ('$sno'='' or sno='$sno') and ('$sex'='' or sex='$sex') and ('$college'='' or college='$college') and ('$phone'='' or phone='$phone') order by sno limit $pageNo,$pageSize";
+		$sql = "select t_students.id,name,sno,college,phone,nativePlace,political,sex,t_students_rooms.room_id,t_rooms.roomNo,t_rooms.apartment_id,t_apartment.apartment from t_students left join t_students_rooms on t_students.id = t_students_rooms.student_id left join t_rooms on t_rooms.id=t_students_rooms.room_id left join t_apartment on t_apartment.id=t_rooms.apartment_id where ('$sname'='' or name='$sname') and ('$sno'='' or sno='$sno') and ('$sex'='' or sex='$sex') and ('$college'='' or college='$college') and ('$phone'='' or phone='$phone') order by sno limit $pageNo,$pageSize";
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
