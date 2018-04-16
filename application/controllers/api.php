@@ -140,11 +140,18 @@ class Api extends CI_Controller {
 			echo 0;
 		}
 	}
-	// 拿所有房间
+	// 房间列表
 	public function getRooms () {
+		$apartment = $this->input->post('apartment');
+		$roomType = $this->input->post('roomType');
+		$roomNo = $this->input->post('roomNo');
 		$this->load->model('user_model');
-		$rs = $this->user_model->getRooms();
-		echo json_encode($rs);
+		$rs = $this->user_model->getRooms($apartment, $roomType, $roomNo);
+		if ($rs) {
+			echo json_encode($rs);
+		} else {
+			echo '啥也没有';
+		}
 	}
 	// 通过宿舍楼id查房间号
 	public function get_by_apartmentId () {
@@ -164,6 +171,25 @@ class Api extends CI_Controller {
 		} else {
 			echo 0;
 		}
+	}
+	// 给学生更换寝室
+	public function changeRoom () {
+		$studentId = $this->input->post('studentId');
+		$roomId = $this->input->post('roomId');
+		$this->load->model('user_model');
+		$rs = $this->user_model->changeRoom($studentId, $roomId);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	// 判断房间是否已满
+	public function isFull () {
+		$roomId = $this->input->post('roomId');
+		$this->load->model('user_model');
+		$rs = $this->user_model->isFull($roomId);
+		echo json_encode($rs);
 	}
 }
 ?>

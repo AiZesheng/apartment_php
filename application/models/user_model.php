@@ -47,6 +47,8 @@ class User_model extends CI_Model {
 	public function delete_student ($id) {
 		$sql = "delete from t_students where id='$id'";
 		$rs = $this->db->query($sql);
+		$sql2 = "delete from t_students_rooms where student_id='$id'";
+		$rs2 = $this->db->query($sql2);
 		return $rs;
 	}
 	// 拿所有宿舍楼名称
@@ -66,9 +68,9 @@ class User_model extends CI_Model {
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
-	// 拿所有房间
-	public function getRooms () {
-		$sql = "select * from t_rooms,t_apartment where t_rooms.apartment_id=t_apartment.id";
+	// 房间列表
+	public function getRooms ($apartment, $roomType, $roomNo) {
+		$sql = "select t_apartment.apartment,t_rooms.roomNo,t_rooms.roomType,t_students.name,t_rooms.id from t_rooms left join t_apartment on t_rooms.apartment_id = t_apartment.id left join t_students_rooms on t_rooms.id=t_students_rooms.room_id left join t_students on t_students_rooms.student_id=t_students.id where ('$apartment'='' or t_apartment.id='$apartment') and ('$roomType'='' or t_rooms.roomType='$roomType') and ('$roomNo'='' or t_rooms.roomNo='$roomNo') order by t_apartment.apartment,t_rooms.roomNo";
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
@@ -83,5 +85,17 @@ class User_model extends CI_Model {
 		$sql = "insert into t_students_rooms(student_id, room_id) values($studentId, $roomId)";
 		$rs = $this->db->query($sql);
 		return $rs;
+	}
+	// 给学生更换寝室
+	public function changeRoom ($studentId, $roomId) {
+		$sql = "update t_students_rooms set room_id='$roomId' where student_id='$studentId'";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
+	// 判断房间是否已满
+	public function isFull ($roomId) {
+		$sql = "select * from t_rooms,t_students_rooms where t_rooms.id=t_students_rooms.room_id and t_rooms.id='$roomId'";
+		$rs = $this->db->query($sql);
+		return $rs->result();
 	}
 }
