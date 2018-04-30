@@ -9,7 +9,7 @@
  Target Server Version : 50718
  File Encoding         : utf-8
 
- Date: 04/17/2018 01:22:34 AM
+ Date: 04/30/2018 16:23:34 PM
 */
 
 SET NAMES utf8;
@@ -42,13 +42,13 @@ CREATE TABLE `t_rooms` (
   `roomType` varchar(255) NOT NULL COMMENT '房间类型',
   `apartment_id` int(11) NOT NULL COMMENT '宿舍楼id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `t_rooms`
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_rooms` VALUES ('3', '110', '4', '1'), ('4', '111', '4', '1'), ('5', '112', '4', '1'), ('6', '113', '4', '1'), ('7', '114', '4', '1'), ('8', '110', '8', '3'), ('9', '111', '8', '3'), ('10', '112', '8', '3'), ('11', '115', '4', '1'), ('12', '116', '4', '1'), ('13', '117', '4', '1'), ('15', '118', '4', '1'), ('16', '119', '4', '1');
+INSERT INTO `t_rooms` VALUES ('3', '110', '4', '1'), ('4', '111', '4', '1'), ('5', '112', '4', '1'), ('6', '113', '4', '1'), ('7', '114', '4', '1'), ('8', '110', '8', '3'), ('9', '111', '8', '3'), ('10', '112', '8', '3'), ('13', '117', '4', '1'), ('15', '118', '4', '1'), ('16', '119', '4', '1'), ('18', '115', '4', '1'), ('19', '116', '4', '1');
 COMMIT;
 
 -- ----------------------------
@@ -87,7 +87,7 @@ CREATE TABLE `t_students_rooms` (
 --  Records of `t_students_rooms`
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_students_rooms` VALUES ('7', '3'), ('11', '3'), ('12', '3'), ('26', '3'), ('15', '4'), ('16', '4');
+INSERT INTO `t_students_rooms` VALUES ('7', '3'), ('11', '3'), ('12', '3'), ('26', '3'), ('15', '4'), ('16', '4'), ('17', '8'), ('18', '8'), ('19', '8'), ('23', '8'), ('24', '8'), ('27', '8'), ('14', '8'), ('13', '8'), ('1', '10');
 COMMIT;
 
 -- ----------------------------
@@ -106,6 +106,27 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `t_user` VALUES ('admin', 'admin', '1'), ('张三', '李四', '2'), ('张三', '李四', '3'), ('张三', '李四', '4');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `t_visitor`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_visitor`;
+CREATE TABLE `t_visitor` (
+  `apartment_id` int(11) NOT NULL COMMENT '宿舍楼id',
+  `visitorName` varchar(255) NOT NULL COMMENT '来访人姓名',
+  `visitorType` int(11) NOT NULL COMMENT '来访人身份',
+  `matter` text NOT NULL COMMENT '来访事项',
+  `visitorTime` varchar(255) NOT NULL COMMENT '来访时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `t_visitor`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_visitor` VALUES ('1', '王博', '2', '查寝', '1523607777000', '2'), ('1', '张某某', '1', '看望学生', '1523323800000', '3'), ('1', '李周二', '1', '看望学生', '1523319600000', '4'), ('1', '李某', '1', '看学生', '1524843379000', '5'), ('2', '王博', '2', '查寝', '1524635705000', '6'), ('1', '张向东', '4', '修水管', '1523433420000', '7'), ('1', '李伟', '3', '检查寝室', '1522720620000', '8'), ('1', '张继', '1', '看学生', '1522980413000', '9'), ('1', '李城', '1', '看学生', '1519873644000', '10'), ('1', '赵之', '1', '看学生', '1518134882000', '11'), ('1', '孙区', '1', '看望学生', '1524046123000', '12');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

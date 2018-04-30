@@ -191,5 +191,64 @@ class Api extends CI_Controller {
 		$rs = $this->user_model->isFull($roomId);
 		echo json_encode($rs);
 	}
+	// 房间信息修改
+	public function editRoom () {
+		$apartmentId = $this->input->post('apartmentId');
+		$roomNo = $this->input->post('roomNo');
+		$roomType = $this->input->post('roomType');
+		$roomId = $this->input->post('roomId');
+		$this->load->model('user_model');
+		$rs = $this->user_model->editRoom($apartmentId, $roomNo, $roomType, $roomId);
+		echo json_encode($rs);
+	}
+	// 删除房间
+	public function deleteRoom () {
+		$roomId = $this->input->post('id');
+		$this->load->model('user_model');
+		$rs = $this->user_model->deleteRoom($roomId);
+		echo json_encode($rs);
+	}
+	// 添加来访者信息
+	public function addVisitor () {
+		$apartmentId = $this->input->post('apartmentId');
+		$visitorName = $this->input->post('visitorName');
+		$visitorType = $this->input->post('visitorType');
+		$visitorDate = $this->input->post('visitorDate');
+		$matter = $this->input->post('matter');
+		$this->load->model('user_model');
+		$rs = $this->user_model->addVisitor($apartmentId, $visitorName, $visitorType, $visitorDate, $matter);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	// 来访者信息查询
+	public function getVisitor () {
+		$apartmentId = $this->input->post('apartmentId');
+		$visitorName = $this->input->post('visitorName');
+		$visitorType = $this->input->post('visitorType');
+		$startTime = $this->input->post('visitorDate');
+		$pageNo = $this->input->post('pageNo');
+		$pageSize = $this->input->post('pageSize');
+		$pageNo = ($pageNo - 1) * 10;
+		if ($startTime) {
+			$endTime = $startTime + 86400000;
+		} else {
+			$endTime = '';
+		}
+		$this->load->model('user_model');
+		$rs = $this->user_model->getVisitor($pageNo, $pageSize, $apartmentId, $visitorName, $visitorType, $startTime, $endTime);
+		$num = $this->user_model->getVisitorNum ($apartmentId, $visitorName, $visitorType, $startTime, $endTime);
+		if ($rs) {
+			$arr = array(
+				'data' => $rs,
+				'total' => $num
+			);
+			echo json_encode($arr);
+		} else {
+			echo '啥也没有';
+		}
+	}
 }
 ?>
