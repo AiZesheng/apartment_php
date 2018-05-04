@@ -19,6 +19,7 @@ class Api extends CI_Controller {
 	}
 	// 添加学生
 	public function addStudents () {
+		$idNumber = $this->input->post('idNumber');
 		$sno = $this->input->post('sno');
 		$name = $this->input->post('name');
 		$sex = $this->input->post('sex');
@@ -33,7 +34,8 @@ class Api extends CI_Controller {
 			'college' => $college,
 			'nativePlace' => $nativePlace,
 			'political' => $political,
-			'phone' => $phone
+			'phone' => $phone,
+			'idNumber' => $idNumber
 		);
 		$this->load->model('user_model');
 		$rs = $this->user_model->add_students($arr);
@@ -90,6 +92,7 @@ class Api extends CI_Controller {
 	}
 	// 学生信息修改
 	public function updateStudent () {
+		$idNumber = $this->input->post('idNumber');
 		$sno = $this->input->post('sno');
 		$name = $this->input->post('name');
 		$sex = $this->input->post('sex');
@@ -98,7 +101,7 @@ class Api extends CI_Controller {
 		$political = $this->input->post('political');
 		$phone = $this->input->post('phone');
 		$this->load->model('user_model');
-		$rs = $this->user_model->update_student($sno, $name, $sex, $college, $nativePlace, $political, $phone);
+		$rs = $this->user_model->update_student($idNumber, $sno, $name, $sex, $college, $nativePlace, $political, $phone);
 		echo json_encode($rs);
 	}
 	// 学生信息删除
@@ -248,6 +251,33 @@ class Api extends CI_Controller {
 			echo json_encode($arr);
 		} else {
 			echo '啥也没有';
+		}
+	}
+	// 来访者信息修改
+	public function editVisitor () {
+		$id = $this->input->post('id');
+		$apartmentId = $this->input->post('apartmentId');
+		$visitorName = $this->input->post('visitorName');
+		$visitorType = $this->input->post('visitorType');
+		$visitorDate = $this->input->post('visitorDate');
+		$matter = $this->input->post('matter');
+		$this->load->model('user_model');
+		$rs = $this->user_model->editVisitor($id, $apartmentId, $visitorName, $visitorType, $visitorDate);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	// 来访者信息删除
+	public function deleteVisitor () {
+		$id = $this->input->post('id');
+		$this->load->model('user_model');
+		$rs = $this->user_model->deleteVisitor($id);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
 		}
 	}
 }

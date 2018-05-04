@@ -27,7 +27,7 @@ class User_model extends CI_Model {
 	}
 	// 学生信息列表
 	public function get_students ($sname, $sno, $sex, $college, $phone, $pageNo, $pageSize) {
-		$sql = "select t_students.id,name,sno,college,phone,nativePlace,political,sex,t_students_rooms.room_id,t_rooms.roomNo,t_rooms.apartment_id,t_apartment.apartment from t_students left join t_students_rooms on t_students.id = t_students_rooms.student_id left join t_rooms on t_rooms.id=t_students_rooms.room_id left join t_apartment on t_apartment.id=t_rooms.apartment_id where ('$sname'='' or name='$sname') and ('$sno'='' or sno='$sno') and ('$sex'='' or sex='$sex') and ('$college'='' or college='$college') and ('$phone'='' or phone='$phone') order by sno limit $pageNo,$pageSize";
+		$sql = "select idNumber,t_students.id,name,sno,college,phone,nativePlace,political,sex,t_students_rooms.room_id,t_rooms.roomNo,t_rooms.apartment_id,t_apartment.apartment from t_students left join t_students_rooms on t_students.id = t_students_rooms.student_id left join t_rooms on t_rooms.id=t_students_rooms.room_id left join t_apartment on t_apartment.id=t_rooms.apartment_id where ('$sname'='' or name='$sname') and ('$sno'='' or sno='$sno') and ('$sex'='' or sex='$sex') and ('$college'='' or college='$college') and ('$phone'='' or phone='$phone') order by sno limit $pageNo,$pageSize";
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
@@ -38,8 +38,8 @@ class User_model extends CI_Model {
 		return $rs->num_rows();
 	}
 	// 学生信息修改
-	public function update_student ($sno, $sname, $sex, $college, $nativePlace, $political, $phone) {
-		$sql = "update t_students set name='$sname',sex='$sex',college='$college',nativePlace='$nativePlace',political='$political',phone='$phone' where sno='$sno'";
+	public function update_student ($idNumber, $sno, $sname, $sex, $college, $nativePlace, $political, $phone) {
+		$sql = "update t_students set name='$sname',sex='$sex',college='$college',nativePlace='$nativePlace',political='$political',phone='$phone',idNumber='$idNumber' where sno='$sno'";
 		$rs = $this->db->query($sql);
 		return $rs;
 	}
@@ -118,14 +118,26 @@ class User_model extends CI_Model {
 	}
 	// 来访者信息查询
 	public function getVisitor ($pageNo, $pageSize, $apartmentId, $visitorName, $visitorType, $startTime, $endTime) {
-		$sql = "select t_visitor.id,t_apartment.apartment,visitorName,visitorType,matter,visitorTime from t_visitor left join t_apartment on t_visitor.apartment_id=t_apartment.id where ('$apartmentId'='' or apartment_id='$apartmentId') and ('$visitorName'='' or visitorName='$visitorName') and ('$visitorType'='' or visitorType='$visitorType') and ('$startTime'='' or (visitorTime > '$startTime' and visitorTime < '$endTime')) order by apartment_id,visitorTime desc limit $pageNo, $pageSize";
+		$sql = "select t_visitor.id,t_visitor.apartment_id,t_apartment.apartment,visitorName,visitorType,matter,visitorTime from t_visitor left join t_apartment on t_visitor.apartment_id=t_apartment.id where ('$apartmentId'='' or apartment_id='$apartmentId') and ('$visitorName'='' or visitorName='$visitorName') and ('$visitorType'='' or visitorType='$visitorType') and ('$startTime'='' or (visitorTime > '$startTime' and visitorTime < '$endTime')) order by apartment_id,visitorTime desc limit $pageNo, $pageSize";
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
-	// 学生信息列表总数
+	// 来访信息列表总数
 	public function getVisitorNum ($apartmentId, $visitorName, $visitorType, $startTime, $endTime) {
 		$sql = "select t_visitor.id,t_apartment.apartment,visitorName,visitorType,matter,visitorTime from t_visitor left join t_apartment on t_visitor.apartment_id=t_apartment.id where ('$apartmentId'='' or apartment_id='$apartmentId') and ('$visitorName'='' or visitorName='$visitorName') and ('$visitorType'='' or visitorType='$visitorType') and ('$startTime'='' or (visitorTime > '$startTime' and visitorTime < '$endTime'))";
 		$rs = $this->db->query($sql);
 		return $rs->num_rows();
+	}
+	// 来访者信息修改
+	public function editVisitor ($id, $apartmentId, $visitorName, $visitorType, $visitorDate) {
+		$sql = "update t_visitor set apartment_id='$apartmentId',visitorName='$visitorName',visitorType='$visitorType',visitorTime='$visitorDate' where id='$id'";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
+	// 来访者信息删除
+	public function deleteVisitor ($id) {
+		$sql = "delete from t_visitor where id='$id'";
+		$rs = $this->db->query($sql);
+		return $rs;
 	}
 }
