@@ -140,4 +140,33 @@ class User_model extends CI_Model {
 		$rs = $this->db->query($sql);
 		return $rs;
 	}
+	// 宿管信息添加
+	public function addAdmin ($arr) {
+		$rs = $this->db->insert('t_admin', $arr);
+		return $rs;
+	}
+	// 宿管信息查询
+	public function getAdmin ($apartment_id, $name, $sex, $job, $pageNo, $pageSize) {
+		$sql = "select t_admin.id,t_apartment.apartment,t_admin.apartment_id,name,sex,job,time,idNumber from t_admin left join t_apartment on t_admin.apartment_id=t_apartment.id where('$apartment_id'='' or apartment_id='$apartment_id') and ('$name'='' or name='$name') and ('$sex'='' or sex='$sex') and ('$job'='' or job='$job') order by t_admin.apartment_id limit $pageNo, $pageSize";
+		$rs = $this->db->query($sql);
+		return $rs->result();
+	}
+	// 宿管信息总数
+	public function getAdminNum ($apartment_id, $name, $sex, $job) {
+		$sql = "select t_admin.id,t_apartment.apartment,t_admin.apartment_id,name,sex,job,time,idNumber from t_admin left join t_apartment on t_admin.apartment_id=t_apartment.id where('$apartment_id'='' or apartment_id='$apartment_id') and ('$name'='' or name='$name') and ('$sex'='' or sex='$sex') and ('$job'='' or job='$job')";
+		$rs = $this->db->query($sql);
+		return $rs->num_rows();
+	}
+	// 宿管信息修改
+	public function editAdmin ($id, $apartment_id, $name, $sex, $job, $time, $idNumber) {
+		$sql = "update t_admin set apartment_id='$apartment_id',name='$name',sex='$sex',job='$job',time='$time',idNumber='$idNumber' where id='$id'";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
+	// 宿管信息删除
+	public function deleteAdmin ($id) {
+		$sql = "delete from t_admin where id='$id'";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
 }

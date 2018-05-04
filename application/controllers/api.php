@@ -280,5 +280,79 @@ class Api extends CI_Controller {
 			echo 0;
 		}
 	}
+	// 宿管信息添加
+	public function addAdmin () {
+		$apartment_id = $this->input->post('apartmentId');
+		$name = $this->input->post('name');
+		$sex = $this->input->post('sex');
+		$job = $this->input->post('job');
+		$time = $this->input->post('time');
+		$idNumber = $this->input->post('idNumber');
+		$this->load->model('user_model');
+		$arr = array(
+			'apartment_id' => $apartment_id,
+			'name' => $name,
+			'sex' => $sex,
+			'job' => $job,
+			'idNumber' => $idNumber,
+			'time' => $time
+		);
+		$rs = $this->user_model->addAdmin($arr);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	// 宿管信息查询
+	public function getAdmin () {
+		$apartment_id = $this->input->post('apartmentId');
+		$name = $this->input->post('name');
+		$sex = $this->input->post('sex');
+		$job = $this->input->post('job');
+		$pageNo = $this->input->post('pageNo');
+		$pageSize = $this->input->post('pageSize');
+		$pageNo = ($pageNo - 1) * 10;
+		$this->load->model('user_model');
+		$rs = $this->user_model->getAdmin($apartment_id, $name, $sex, $job, $pageNo, $pageSize);
+		$total = $this->user_model->getAdminNum ($apartment_id, $name, $sex, $job);
+		if ($rs) {
+			$arr = array(
+				'data' => $rs,
+				'total' => $total
+			);
+			echo json_encode($arr);
+		} else {
+			echo '啥也没有';
+		}
+	}
+	// 宿管信息修改
+	public function editAdmin () {
+		$id = $this->input->post('id');
+		$apartment_id = $this->input->post('apartmentId');
+		$name = $this->input->post('name');
+		$sex = $this->input->post('sex');
+		$job = $this->input->post('job');
+		$time = $this->input->post('time');
+		$idNumber = $this->input->post('idNumber');
+		$this->load->model('user_model');
+		$rs = $this->user_model->editAdmin($id, $apartment_id, $name, $sex, $job, $time, $idNumber);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	// 宿管信息删除
+	public function deleteAdmin () {
+		$id = $this->input->post('id');
+		$this->load->model('user_model');
+		$rs = $this->user_model->deleteAdmin($id);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
 }
 ?>
