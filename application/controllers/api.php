@@ -17,6 +17,28 @@ class Api extends CI_Controller {
 			echo 0;
 		}
 	}
+	// 注册
+	public function regist () {
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$arr = array(
+			'username' => $username,
+			'password' => $password
+		);
+		$this->load->model('user_model');
+		$rs = $this->user_model->get_by_username($username);
+		if ($rs) {
+			echo '用户名已存在';
+		} else {
+			$query = $this->user_model->regist($arr);
+			$query2 = $this->user_model->get_by_username_password($username, $password);
+			if ($query2) {
+				echo json_encode($query2);
+			} else {
+				echo 0;
+			}
+		}
+	}
 	// 添加学生
 	public function addStudents () {
 		$idNumber = $this->input->post('idNumber');
@@ -110,6 +132,20 @@ class Api extends CI_Controller {
 		$this->load->model('user_model');
 		$rs = $this->user_model->delete_student($id);
 		echo json_encode($rs);
+	}
+	// 添加宿舍楼名称
+	public function addApartment () {
+		$apartment = $this->input->post('apartment');
+		$arr = array(
+			'apartment' => $apartment
+		);
+		$this->load->model('user_model');
+		$rs = $this->user_model->addApartment($arr);
+		if ($rs) {
+			echo 1;
+		} else {
+			echo 0;
+		}
 	}
 	// 拿所有宿舍楼名称
 	public function getApartment () {

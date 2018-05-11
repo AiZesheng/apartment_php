@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-05-05 01:07:57
+Date: 2018-05-11 12:20:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `t_admin` (
   `time` varchar(255) DEFAULT NULL COMMENT '入职时间',
   `apartment_id` int(11) DEFAULT NULL COMMENT '宿舍楼id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_admin
@@ -48,7 +48,7 @@ CREATE TABLE `t_apartment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `apartment` varchar(255) NOT NULL COMMENT '宿舍楼名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_apartment
@@ -56,6 +56,8 @@ CREATE TABLE `t_apartment` (
 INSERT INTO `t_apartment` VALUES ('1', 'C区17栋');
 INSERT INTO `t_apartment` VALUES ('2', 'C区28栋');
 INSERT INTO `t_apartment` VALUES ('3', 'A区9栋');
+INSERT INTO `t_apartment` VALUES ('4', 'C区26栋');
+INSERT INTO `t_apartment` VALUES ('5', 'C区16栋');
 
 -- ----------------------------
 -- Table structure for `t_rooms`
@@ -161,7 +163,7 @@ CREATE TABLE `t_user` (
   `password` varchar(255) NOT NULL COMMENT '密码',
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
@@ -170,6 +172,10 @@ INSERT INTO `t_user` VALUES ('admin', 'admin', '1');
 INSERT INTO `t_user` VALUES ('张三', '李四', '2');
 INSERT INTO `t_user` VALUES ('张三', '李四', '3');
 INSERT INTO `t_user` VALUES ('张三', '李四', '4');
+INSERT INTO `t_user` VALUES ('admin2', 'admin', '5');
+INSERT INTO `t_user` VALUES ('admin3', 'admin3', '6');
+INSERT INTO `t_user` VALUES ('admin4', 'admin4', '7');
+INSERT INTO `t_user` VALUES ('adminasdf', 'admin', '8');
 
 -- ----------------------------
 -- Table structure for `t_visitor`

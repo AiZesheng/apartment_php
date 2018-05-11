@@ -8,6 +8,17 @@ class User_model extends CI_Model {
 		$rs = $this->db->query($sql);
 		return $rs->result();
 	}
+	// 注册
+	public function regist ($arr) {
+		$rs = $this->db->insert('t_user', $arr);
+		return $rs;
+	}
+	// 注册用户名唯一性校验
+	public function get_by_username ($username) {
+		$sql = "select * from t_user where username='$username'";
+		$rs = $this->db->query($sql);
+		return $rs->result();
+	}
 	// 添加学生
 	public function add_students ($arr) {
 		$rs = $this->db->insert('t_students', $arr);
@@ -49,6 +60,11 @@ class User_model extends CI_Model {
 		$rs = $this->db->query($sql);
 		$sql2 = "delete from t_students_rooms where student_id='$id'";
 		$rs2 = $this->db->query($sql2);
+		return $rs;
+	}
+	// 添加宿舍楼名称
+	public function addApartment ($arr) {
+		$rs = $this->db->insert('t_apartment', $arr);
 		return $rs;
 	}
 	// 拿所有宿舍楼名称
